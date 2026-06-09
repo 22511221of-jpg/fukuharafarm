@@ -1,0 +1,1246 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>福原農園 | 岡山県和気町のぶどう農家</title>
+  <meta name="description" content="岡山県和気町のぶどう農家・福原農園。シャインマスカット、ニューピオーネ、瀬戸ジャイアンツ、ブラックビートを丁寧に育てています。">
+  <meta property="og:type"        content="website">
+  <meta property="og:url"         content="https://fukuharafarm.vercel.app">
+  <meta property="og:title"       content="福原農園 | 岡山県和気町のぶどう農家">
+  <meta property="og:description" content="岡山県和気町のぶどう農家・福原農園。シャインマスカット、ニューピオーネ、瀬戸ジャイアンツ、ブラックビートを丁寧に育てています。">
+  <meta property="og:image"       content="https://fukuharafarm.vercel.app/images/harvest_family.jpg">
+  <meta name="twitter:card"       content="summary_large_image">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@400;600;700&family=Noto+Sans+JP:wght@300;400;500&display=swap" rel="stylesheet">
+  <style>
+    /* ===== RESET & VARIABLES ===== */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:     #FDFAF5;
+      --text:   #2C2419;
+      --grape:  #4A2368;
+      --green:  #6B8F3E;
+      --sub:    #C4956A;
+      --border: #E8DDD0;
+      --serif:  'Noto Serif JP', serif;
+      --sans:   'Noto Sans JP', sans-serif;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--sans);
+      line-height: 1.8;
+      overflow-x: hidden;
+    }
+
+    img { display: block; max-width: 100%; }
+
+    /* ===== FADE-IN ===== */
+    .fi {
+      opacity: 0;
+      transform: translateY(26px);
+      transition: opacity 0.72s ease, transform 0.72s ease;
+    }
+    .fi.on { opacity: 1; transform: translateY(0); }
+    .fi.d1 { transition-delay: 0.1s; }
+    .fi.d2 { transition-delay: 0.2s; }
+    .fi.d3 { transition-delay: 0.3s; }
+    .fi.d4 { transition-delay: 0.4s; }
+
+    /* ===== HEADER ===== */
+    header {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 900;
+      height: 62px;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 2rem;
+      background: rgba(253,250,245,.95);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .logo-link { display: flex; align-items: center; text-decoration: none; }
+    .logo-link img { height: 50px; width: auto; object-fit: contain; }
+
+    .desk-nav ul { display: flex; gap: 2rem; list-style: none; }
+    .desk-nav a {
+      font-size: .84rem; color: var(--text);
+      text-decoration: none; letter-spacing: .06em;
+      transition: color .2s;
+    }
+    .desk-nav a:hover { color: var(--grape); }
+
+    /* Hamburger */
+    .ham {
+      display: none; flex-direction: column; gap: 5px;
+      background: none; border: none; cursor: pointer; padding: 4px;
+    }
+    .ham span { display: block; width: 22px; height: 2px; background: var(--text); transition: all .28s; }
+    .ham.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    .ham.open span:nth-child(2) { opacity: 0; }
+    .ham.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+    .mob-nav {
+      display: none;
+      position: fixed; top: 62px; left: 0; right: 0; z-index: 899;
+      background: var(--bg);
+      border-bottom: 1px solid var(--border);
+      padding: 1.5rem 2rem;
+    }
+    .mob-nav.open { display: block; }
+    .mob-nav ul { list-style: none; display: flex; flex-direction: column; gap: 1.3rem; }
+    .mob-nav a { font-size: .95rem; color: var(--text); text-decoration: none; }
+
+    /* ===== HERO ===== */
+    #hero {
+      height: 100vh; width: 100%; max-width: 100%;
+      display: flex; align-items: center; justify-content: center;
+      position: relative; overflow: hidden;
+      padding-top: 62px;
+    }
+
+    .hero-slide {
+      position: absolute; inset: 0;
+      background-size: cover; background-position: center center;
+      opacity: 0;
+      transition: opacity .8s ease-in-out;
+    }
+    .hero-slide.active { opacity: 1; }
+
+    .hero-overlay {
+      position: absolute; inset: 0; z-index: 1;
+      background: rgba(20,10,30,.45);
+    }
+
+    .hero-dots {
+      position: absolute; bottom: 2rem; left: 50%; transform: translateX(-50%);
+      display: flex; gap: .6rem; z-index: 3;
+    }
+    .hero-dot {
+      width: 9px; height: 9px; border-radius: 50%;
+      background: rgba(255,255,255,.35); border: none; cursor: pointer; padding: 0;
+      transition: background .3s, transform .3s;
+    }
+    .hero-dot.active { background: rgba(255,255,255,.9); transform: scale(1.25); }
+
+    .hero-content {
+      position: relative; z-index: 2;
+      max-width: 680px; padding: 2rem;
+      text-align: center;
+    }
+
+    .hero-badge {
+      display: inline-block;
+      font-size: .72rem; letter-spacing: .18em; color: rgba(255,255,255,.75);
+      border: 1px solid rgba(255,255,255,.4); border-radius: 999px;
+      padding: .28rem 1rem; margin-bottom: 1.8rem;
+    }
+
+    .hero-title {
+      font-family: var(--serif);
+      font-size: clamp(2.8rem, 6vw, 4.4rem);
+      font-weight: 700; color: #fff;
+      line-height: 1.45; letter-spacing: .05em;
+      margin-bottom: 1.5rem;
+      text-shadow: 0 2px 20px rgba(0,0,0,.4);
+    }
+
+    .hero-sub {
+      font-size: 1rem; line-height: 2.1;
+      color: rgba(255,255,255,.88);
+      font-weight: 300; margin-bottom: 2.5rem;
+      text-shadow: 0 1px 10px rgba(0,0,0,.35);
+    }
+
+    .btn-grape {
+      display: inline-block;
+      background: var(--grape); color: #fff;
+      font-size: .9rem; letter-spacing: .1em;
+      padding: .95rem 2.5rem; border-radius: 4px;
+      text-decoration: none; transition: background .2s, transform .2s;
+    }
+    .btn-grape:hover { background: #38195a; transform: translateY(-2px); }
+
+    .scroll-hint {
+      position: absolute; bottom: 5rem; left: 50%; transform: translateX(-50%);
+      display: flex; flex-direction: column; align-items: center; gap: .4rem;
+      color: rgba(255,255,255,.5); font-size: .65rem; letter-spacing: .18em;
+      z-index: 2;
+    }
+    .scroll-hint::after {
+      content: '';
+      display: block; width: 1px; height: 40px;
+      background: linear-gradient(to bottom, rgba(255,255,255,.45), transparent);
+      animation: scr 1.6s ease-in-out infinite;
+    }
+    @keyframes scr {
+      0%   { transform: scaleY(0); transform-origin: top; }
+      49%  { transform: scaleY(1); transform-origin: top; }
+      50%  { transform: scaleY(1); transform-origin: bottom; }
+      100% { transform: scaleY(0); transform-origin: bottom; }
+    }
+
+    /* ===== SECTION COMMON ===== */
+    section { padding: 5.5rem 2rem; }
+
+    .wrap { max-width: 900px; margin: 0 auto; }
+
+    .sec-label {
+      font-size: .72rem; letter-spacing: .2em; text-transform: uppercase;
+      color: var(--sub); margin-bottom: .6rem;
+    }
+
+    .sec-title {
+      font-family: var(--serif);
+      font-size: clamp(1.5rem, 4vw, 2.2rem);
+      font-weight: 700; line-height: 1.55;
+      margin-bottom: 1rem;
+    }
+
+    .rule { width: 36px; height: 2px; background: var(--grape); margin-bottom: 2.5rem; }
+
+    /* ===== ABOUT ===== */
+    #about { background: #fff; }
+
+    .about-body { font-size: .95rem; line-height: 2.3; color: #4a3820; }
+    .about-body p { margin-bottom: 1.2rem; }
+
+    .dog-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5rem;
+      margin-top: 2.5rem;
+    }
+
+    .dog-card {
+      border: 1px solid var(--border);
+      border-radius: 12px; overflow: hidden;
+      background: var(--bg);
+      display: flex; flex-direction: row;
+    }
+
+    .dog-card img {
+      width: 50%; flex-shrink: 0;
+      object-fit: cover;
+    }
+
+    .dog-body { padding: 1.25rem 1.4rem; flex: 1; display: flex; flex-direction: column; justify-content: center; }
+    .dog-name {
+      font-family: var(--serif); font-size: 1.05rem; font-weight: 700;
+      margin-bottom: .3rem;
+    }
+    .dog-breed { font-size: .78rem; color: var(--sub); letter-spacing: .08em; margin-bottom: .6rem; }
+    .dog-desc { font-size: .875rem; line-height: 1.9; color: #5a4830; }
+
+    .dog-footer {
+      text-align: center;
+      margin-top: 1.5rem;
+      font-size: .9rem; color: #6a5640; font-style: italic;
+    }
+
+    /* ===== PROFILE ===== */
+    #profile { background: var(--bg); }
+    #dogs { background: #fff; }
+
+    .profile-grid {
+      display: grid;
+      grid-template-columns: 260px 1fr;
+      gap: 3rem; align-items: start;
+    }
+
+    .p-photo-wrap {
+      overflow: hidden;
+      border-radius: 12px;
+      box-shadow: 0 8px 28px rgba(44,36,25,.12);
+    }
+    .p-photo {
+      width: 100%; height: 340px;
+      object-fit: cover; object-position: center top;
+      display: block;
+    }
+
+    .p-name {
+      font-family: var(--serif); font-size: 1.15rem; font-weight: 700;
+      margin-bottom: .25rem;
+    }
+    .p-role { font-size: .8rem; color: var(--sub); letter-spacing: .08em; margin-bottom: 1.4rem; }
+
+    .p-text { font-size: .9375rem; line-height: 2.25; color: #4a3820; }
+    .p-text p { margin-bottom: 1rem; }
+
+    .badge-years {
+      display: inline-block;
+      background: var(--grape); color: #fff;
+      font-size: .78rem; letter-spacing: .1em;
+      padding: .35rem 1.1rem; border-radius: 999px;
+      margin-top: .5rem;
+    }
+
+    /* ===== VARIETIES ===== */
+    #varieties { background: #fff; }
+
+    .varieties-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1.5rem;
+    }
+
+    .v-card {
+      border: 1px solid var(--border);
+      border-radius: 12px; overflow: hidden;
+      transition: transform .22s, box-shadow .22s;
+    }
+    .v-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 14px 36px rgba(44,36,25,.1);
+    }
+
+    .v-img { width: 100%; height: 200px; object-fit: cover; }
+
+    .v-color {
+      height: 200px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 4rem; opacity: .5;
+    }
+
+    .v-body { padding: 1.5rem; }
+    .v-name {
+      font-family: var(--serif); font-size: 1.2rem; font-weight: 700;
+      margin-bottom: .7rem;
+    }
+    .v-desc { font-size: .875rem; line-height: 1.95; color: #5a4830; margin-bottom: 1rem; }
+    .v-harvest {
+      display: inline-flex; align-items: center; gap: .35rem;
+      font-size: .78rem; color: var(--sub);
+      border: 1px solid var(--border); border-radius: 999px;
+      padding: .2rem .75rem;
+    }
+    .v-harvest::before { content: '📅'; font-size: .7rem; }
+
+    /* ===== GIFT ===== */
+    #gift { background: var(--bg); }
+
+    .gift-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 3.5rem; align-items: center;
+    }
+
+    .gift-photo-wrap {
+      overflow: hidden;
+      border-radius: 12px;
+      box-shadow: 0 8px 32px rgba(44,36,25,.12);
+    }
+    .gift-photo {
+      width: 100%; height: 300px;
+      object-fit: cover; object-position: center;
+      display: block;
+    }
+
+    .gift-text { font-size: .9375rem; line-height: 2.2; color: #4a3820; }
+    .gift-text p { margin-bottom: 1.2rem; }
+
+    .gift-list { list-style: none; margin-bottom: 1.8rem; }
+    .gift-list li { padding: .4rem 0; font-size: .9rem; color: #4a3820; }
+    .gift-list li::before { content: '• '; color: var(--grape); font-weight: 700; }
+
+    .btn-outline {
+      display: inline-block;
+      border: 2px solid var(--grape); color: var(--grape);
+      font-size: .875rem; font-weight: 500; letter-spacing: .08em;
+      padding: .75rem 2rem; border-radius: 4px;
+      text-decoration: none; transition: background .2s, color .2s;
+    }
+    .btn-outline:hover { background: var(--grape); color: #fff; }
+
+    /* ===== COMMITMENT ===== */
+    #commitment { background: #fff; }
+
+    .commit-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+    }
+
+    .c-card {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 2rem 1.5rem;
+      text-align: center;
+    }
+
+    .c-icon {
+      width: 62px; height: 62px; border-radius: 50%;
+      margin: 0 auto 1.25rem;
+      background: linear-gradient(135deg, var(--grape) 0%, #693692 100%);
+      display: flex; align-items: center; justify-content: center;
+      color: #fff;
+      font-size: 1.65rem;
+    }
+
+    .c-title {
+      font-family: var(--serif); font-size: 1rem; font-weight: 600;
+      margin-bottom: .85rem;
+    }
+    .c-text { font-size: .86rem; line-height: 2.05; color: #5a4830; }
+
+    /* ===== CTA ===== */
+    #purchase {
+      background: var(--grape);
+      text-align: center;
+    }
+    #purchase .sec-label { color: rgba(255,255,255,.5); }
+    #purchase .sec-title { color: #fff; }
+    #purchase .rule { background: rgba(255,255,255,.3); margin-left: auto; margin-right: auto; }
+
+    .cta-sub {
+      color: rgba(255,255,255,.78); font-size: .95rem;
+      margin-top: -1.5rem; margin-bottom: 2.2rem;
+    }
+
+    .btn-white {
+      display: inline-block;
+      background: #fff; color: var(--grape);
+      font-size: .9rem; font-weight: 500; letter-spacing: .1em;
+      padding: .95rem 2.5rem; border-radius: 4px;
+      text-decoration: none; transition: background .2s, transform .2s;
+    }
+    .btn-white:hover { background: #f2e8fa; transform: translateY(-2px); }
+
+    /* ===== FOOTER ===== */
+    footer {
+      background: var(--text); color: rgba(255,255,255,.65);
+      padding: 3rem 2rem 2rem;
+    }
+    .foot-inner { max-width: 900px; margin: 0 auto; }
+
+    .foot-top {
+      display: flex; justify-content: space-between; align-items: flex-start;
+      padding-bottom: 1.8rem;
+      border-bottom: 1px solid rgba(255,255,255,.1);
+      margin-bottom: 1.5rem;
+    }
+    .foot-logo {
+      font-family: var(--serif); font-size: 1.15rem;
+      color: #fff; font-weight: 700; letter-spacing: .1em;
+    }
+    .foot-addr { font-size: .8rem; margin-top: .4rem; line-height: 1.8; }
+
+    .foot-links { display: flex; gap: 1.5rem; flex-wrap: wrap; align-items: center; }
+    .foot-links a {
+      color: rgba(255,255,255,.55); font-size: .8rem;
+      text-decoration: none; transition: color .2s;
+    }
+    .foot-links a:hover { color: #fff; }
+
+    .foot-copy { font-size: .72rem; color: rgba(255,255,255,.35); text-align: center; }
+
+    /* ===== SHOP ===== */
+    #shop { background: #fff; }
+
+    .shop-sub {
+      font-size: .9rem; color: #6a5640; line-height: 1.8;
+      margin-top: -.5rem; margin-bottom: 3rem;
+    }
+
+    .shop-variety { margin-bottom: 3.5rem; }
+    .shop-variety:last-child { margin-bottom: 0; }
+
+    .shop-variety-header {
+      display: flex; align-items: center; gap: 1.25rem;
+      margin-bottom: 1.25rem;
+      padding-bottom: 1rem;
+      border-bottom: 2px solid var(--border);
+    }
+
+    .shop-variety-img {
+      width: 72px; height: 72px;
+      border-radius: 8px;
+      object-fit: cover; flex-shrink: 0;
+    }
+
+    .shop-variety-name {
+      font-family: var(--serif);
+      font-size: 1.25rem; font-weight: 700;
+    }
+
+    .shop-products {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1rem;
+    }
+
+    .shop-product {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 1.1rem 1.2rem;
+      display: flex; flex-direction: column; gap: .5rem;
+    }
+
+    .shop-product-name {
+      font-size: .875rem; font-weight: 500;
+      color: var(--text); line-height: 1.55;
+    }
+
+    .badge-deal {
+      display: inline-block;
+      background: var(--green); color: #fff;
+      font-size: .62rem; letter-spacing: .06em;
+      padding: .12rem .5rem; border-radius: 999px;
+      vertical-align: middle; margin-left: .35rem;
+      font-weight: 400;
+    }
+
+    .shop-product-price {
+      font-family: var(--serif);
+      font-size: 1.2rem; font-weight: 700;
+      color: var(--grape);
+    }
+
+    .shop-btn {
+      display: block;
+      background: var(--grape); color: #fff;
+      font-size: .8rem; letter-spacing: .08em;
+      padding: .6rem 1rem;
+      border-radius: 4px;
+      text-decoration: none; text-align: center;
+      margin-top: auto;
+      transition: background .2s;
+    }
+    .shop-btn:hover { background: #38195a; }
+
+    .shop-variety-more {
+      grid-column: 1 / -1; text-align: right;
+      margin-top: .25rem;
+    }
+    .shop-variety-more a {
+      font-size: .82rem; color: var(--grape);
+      text-decoration: none; letter-spacing: .04em;
+      transition: opacity .2s;
+    }
+    .shop-variety-more a:hover { opacity: .7; }
+
+    /* ===== BLOG ===== */
+    #blog { background: #faf8f5; }
+
+    .blog-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+      margin-top: 2.5rem;
+    }
+
+    .blog-card {
+      border: 1px solid var(--border);
+      border-radius: 12px; overflow: hidden;
+      background: #fff;
+      text-decoration: none; color: inherit;
+      display: flex; flex-direction: column;
+      transition: transform .2s, box-shadow .2s;
+    }
+    .blog-card:hover { transform: translateY(-4px); box-shadow: 0 12px 32px rgba(44,36,25,.12); }
+
+    .blog-thumb { width: 100%; height: 180px; object-fit: cover; display: block; }
+
+    .blog-thumb-ph {
+      width: 100%; height: 180px;
+      background: linear-gradient(135deg, #e8dff5 0%, #c9b8e8 100%);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 2.5rem;
+    }
+
+    .blog-body { padding: 1.1rem 1.25rem 1.4rem; flex: 1; }
+
+    .blog-date {
+      font-size: .72rem; color: var(--sub);
+      letter-spacing: .08em; margin-bottom: .45rem;
+    }
+
+    .blog-title {
+      font-family: var(--serif); font-size: .975rem; font-weight: 700;
+      color: var(--text); line-height: 1.55; margin-bottom: .55rem;
+    }
+
+    .blog-excerpt { font-size: .82rem; line-height: 1.85; color: #5a4830; }
+
+    .blog-more { margin-top: 2.5rem; text-align: center; }
+
+    .blog-insta-sub {
+      font-size: .88rem; color: var(--sub);
+      margin-bottom: 1.1rem; letter-spacing: .04em;
+    }
+
+    .insta-links {
+      display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;
+    }
+    .insta-link {
+      display: flex; flex-direction: column; align-items: center; gap: .2rem;
+      padding: .9rem 1.6rem; min-width: 140px;
+      border: 1px solid var(--border); border-radius: 10px;
+      text-decoration: none; color: var(--text);
+      transition: border-color .2s, transform .2s, box-shadow .2s;
+    }
+    .insta-link:hover { border-color: #c13584; transform: translateY(-2px); box-shadow: 0 6px 18px rgba(193,53,132,.12); }
+    .insta-link i { font-size: 1.55rem; color: #c13584; }
+    .insta-label { font-size: .7rem; color: var(--sub); letter-spacing: .06em; margin-top: .1rem; }
+    .insta-handle { font-size: .85rem; font-weight: 500; color: var(--grape); }
+
+    .foot-insta-handle { font-size: .78rem; margin-left: .3em; vertical-align: middle; }
+
+    .blog-state {
+      grid-column: 1 / -1; text-align: center;
+      color: var(--sub); font-size: .9rem; padding: 2rem 0;
+    }
+
+    /* ===== RESPONSIVE ===== */
+    @media (max-width: 768px) {
+      /* ---- ナビゲーション ---- */
+      .desk-nav { display: none; }
+      .ham { display: flex; }
+      header { padding: 0 1.25rem; }
+      .logo-link img { height: 42px; }
+
+      /* ---- ヒーロー ---- */
+      .hero-content { padding: 1.25rem; }
+      .hero-badge { font-size: .65rem; letter-spacing: .1em; margin-bottom: 1.2rem; }
+      .hero-title { font-size: 1.85rem; line-height: 1.5; margin-bottom: 1.1rem; }
+      .hero-sub { font-size: .9rem; line-height: 1.85; margin-bottom: 1.8rem; }
+      .btn-grape { font-size: .85rem; padding: .85rem 2rem; }
+
+      /* ---- セクション共通 ---- */
+      section { padding: 3.5rem 1.25rem; }
+      .sec-title { font-size: 1.4rem; }
+      .rule { margin-bottom: 2rem; }
+
+      /* ---- About ---- */
+      .about-body { font-size: .9rem; line-height: 2.0; }
+      .dog-grid { grid-template-columns: 1fr; gap: 1.2rem; }
+      .dog-card { flex-direction: column; }
+      .dog-card img { width: 100%; height: 240px; }
+      .dog-body { padding: 1rem 1.1rem; }
+      .dog-footer { font-size: .85rem; margin-top: 1.2rem; }
+
+      /* ---- Profile ---- */
+      .profile-grid { grid-template-columns: 1fr; gap: 1.5rem; }
+      .p-photo-wrap { width: 100%; max-width: 100%; }
+      .p-photo { width: 100%; height: 260px; }
+      .p-text { font-size: .9rem; line-height: 2.0; }
+
+      /* ---- Varieties ---- */
+      .varieties-grid { grid-template-columns: 1fr; gap: 1.2rem; }
+      .v-img { width: 100%; height: 200px; }
+      .v-color { height: 180px; font-size: 3rem; }
+      .v-body { padding: 1.1rem 1.2rem; }
+      .v-name { font-size: 1.1rem; }
+
+      /* ---- Gift ---- */
+      .gift-grid { grid-template-columns: 1fr; gap: 1.5rem; }
+      .gift-photo-wrap { width: 100%; }
+      .gift-photo { width: 100%; height: 220px; }
+      .gift-text { font-size: .9rem; line-height: 2.0; }
+      .btn-outline { display: block; text-align: center; }
+
+      /* ---- Commitment ---- */
+      .commit-grid { grid-template-columns: 1fr; gap: 1.2rem; }
+      .c-card { padding: 1.5rem 1.25rem; }
+      .c-text { font-size: .85rem; line-height: 1.9; }
+
+      /* ---- CTA ---- */
+      .cta-sub { font-size: .88rem; }
+      .btn-white { font-size: .85rem; padding: .85rem 2rem; }
+
+      /* ---- Shop ---- */
+      .shop-products { grid-template-columns: 1fr; gap: .85rem; }
+      .shop-variety-name { font-size: 1.1rem; }
+
+      /* ---- Blog ---- */
+      .blog-grid { grid-template-columns: 1fr; gap: 1.1rem; }
+
+      /* ---- Footer ---- */
+      footer { padding: 2.5rem 1.25rem 1.5rem; }
+      .foot-top { flex-direction: column; gap: 1.25rem; }
+      .foot-links { gap: 1rem; }
+    }
+  </style>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+
+<!-- ========== HEADER ========== -->
+<header>
+  <a href="#hero" class="logo-link" aria-label="福原農園 トップへ">
+    <img src="images/logo.png" alt="福原農園">
+  </a>
+
+  <nav class="desk-nav">
+    <ul>
+      <li><a href="#about">農園について</a></li>
+      <li><a href="#varieties">ぶどうの品種</a></li>
+      <li><a href="#commitment">こだわり</a></li>
+      <li><a href="#blog">農園だより</a></li>
+      <li><a href="#shop">ご注文</a></li>
+      <li><a href="#purchase">ご購入</a></li>
+    </ul>
+  </nav>
+
+  <button class="ham" id="ham" aria-label="メニューを開く">
+    <span></span><span></span><span></span>
+  </button>
+</header>
+
+<!-- Mobile nav -->
+<div class="mob-nav" id="mobNav">
+  <ul>
+    <li><a href="#about"      class="mnl">農園について</a></li>
+    <li><a href="#varieties"  class="mnl">ぶどうの品種</a></li>
+    <li><a href="#commitment" class="mnl">こだわり</a></li>
+    <li><a href="#blog"       class="mnl">農園だより</a></li>
+    <li><a href="#shop"       class="mnl">ご注文</a></li>
+    <li><a href="#purchase"   class="mnl">ご購入</a></li>
+  </ul>
+</div>
+
+
+<!-- ========== HERO ========== -->
+<section id="hero">
+  <div class="hero-slide active" style="background-image:url('images/harvest_family.jpg');background-position:60% center"></div>
+  <div class="hero-slide" style="background-image:url('images/vineyard.jpg')"></div>
+  <div class="hero-slide" style="background-image:url('images/pione.jpg')"></div>
+  <div class="hero-slide" style="background-image:url('images/ria_farm.jpg')"></div>
+  <div class="hero-slide" style="background-image:url('images/charo_peek.jpg')"></div>
+
+  <div class="hero-overlay"></div>
+
+  <div class="hero-content">
+    <p class="hero-badge">岡山県 和気町 ぶどう農家</p>
+    <h1 class="hero-title">
+      和気町の土から、<br>
+      食卓へ。
+    </h1>
+    <p class="hero-sub">
+      「ぶどう」がだいすきな農家が、<br>
+      心をこめて育てた一粒をお届けします。
+    </p>
+    <a href="https://www.fukuharafarm.shop/" target="_blank" rel="noopener" class="btn-grape">
+      ご購入はこちら
+    </a>
+  </div>
+
+  <div class="hero-dots" role="tablist" aria-label="スライド切り替え">
+    <button class="hero-dot active" role="tab" aria-label="スライド 1" data-idx="0"></button>
+    <button class="hero-dot" role="tab" aria-label="スライド 2" data-idx="1"></button>
+    <button class="hero-dot" role="tab" aria-label="スライド 3" data-idx="2"></button>
+    <button class="hero-dot" role="tab" aria-label="スライド 4" data-idx="3"></button>
+    <button class="hero-dot" role="tab" aria-label="スライド 5" data-idx="4"></button>
+  </div>
+
+  <div class="scroll-hint" aria-hidden="true">SCROLL</div>
+</section>
+
+
+<!-- ========== ABOUT ========== -->
+<section id="about">
+  <div class="wrap">
+    <p class="sec-label fi">About</p>
+    <h2 class="sec-title fi d1">和気町と、ぶどうと、<br>ぼくたちと。</h2>
+    <div class="rule fi d2"></div>
+
+    <div class="about-body fi d2">
+      <p>岡山県南東部に位置する和気町（わけちょう）。<br>福原農園は、この地に根を張り、ぶどうを育てています。</p>
+      <p>第１ファームは標高約400メートルの冷涼地。<br>露地栽培に最適なこの場所で、ぶどうは大地の恵みをたっぷり受けながら育ちます。</p>
+      <p>第２ファームは、100種以上の藤が咲く「藤公園」の近く。<br>ビニールハウスで栽培することで、より長い期間、旬のぶどうをお届けできます。</p>
+      <p>標高差を活かした2つのファームで、皆さまに長く楽しんでいただけるよう工夫しています。</p>
+    </div>
+  </div>
+</section>
+
+
+<!-- ========== PROFILE ========== -->
+<section id="profile">
+  <div class="wrap">
+    <p class="sec-label fi">Profile</p>
+    <h2 class="sec-title fi d1">農家になるまで。</h2>
+    <div class="rule fi d2"></div>
+
+    <div class="profile-grid fi d2">
+      <div>
+        <div class="p-photo-wrap">
+          <img src="images/owner1.jpg" alt="代表 福原隆徳" class="p-photo" loading="lazy">
+        </div>
+      </div>
+      <div>
+        <p class="p-name">福原 隆徳</p>
+        <p class="p-role">代表 / ふくはら たかのり</p>
+        <div class="p-text">
+          <p>1977年、岡山県生まれ。<br>
+          広島修道大学で経営学を学んだ後、福祉の道へ。<br>
+          介護福祉士・ケアマネージャーとして「人の力になりたい」という想いで働き続けた。</p>
+          <p>実家は兼業農家。幼い頃から自然と農業が傍にあった。<br>
+          30代に入り「農業を仕事にしたい」という気持ちが芽生え、就農。</p>
+          <p>福祉で学んだ「和みの心」と、<br>
+          「自分を育ててくれた地域と自然に恩返しをしたい」という思いを胸に、<br>
+          和気町でぶどうと向き合っている。</p>
+          <span class="badge-years">就農15年以上</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ========== DOGS ========== -->
+<section id="dogs">
+  <div class="wrap">
+    <div class="dog-grid">
+      <div class="dog-card fi d2">
+        <img src="images/ria_sit.jpg" alt="白柴のりあ" loading="lazy">
+        <div class="dog-body">
+          <p class="dog-name">りあ</p>
+          <p class="dog-breed">白柴</p>
+          <p class="dog-desc">農園をちょこちょこ歩き回る、甘えん坊な白柴。</p>
+        </div>
+      </div>
+
+      <div class="dog-card fi d3">
+        <img src="images/charo_smile.jpg" alt="秋田犬のちゃろ" loading="lazy">
+        <div class="dog-body">
+          <p class="dog-name">ちゃろ</p>
+          <p class="dog-breed">秋田犬</p>
+          <p class="dog-desc">どっしり構えた農園の番犬。実はとっても人懐っこい。</p>
+        </div>
+      </div>
+    </div>
+
+    <p class="dog-footer fi d4">和気町にお越しの際は、ぜひ2匹に会いにきてください。</p>
+  </div>
+</section>
+
+
+<!-- ========== VARIETIES ========== -->
+<section id="varieties">
+  <div class="wrap">
+    <p class="sec-label fi">Varieties</p>
+    <h2 class="sec-title fi d1">育てているぶどう</h2>
+    <div class="rule fi d2"></div>
+
+    <div class="varieties-grid">
+      <!-- シャインマスカット -->
+      <div class="v-card fi d1">
+        <img src="images/seto_giants.jpg" alt="シャインマスカット" class="v-img" loading="lazy">
+        <div class="v-body">
+          <h3 class="v-name">シャインマスカット</h3>
+          <p class="v-desc">マスカットの華やかな香りと高い糖度。種なしで皮ごと食べられる人気品種。贈答品としても喜ばれます。</p>
+          <span class="v-harvest">収穫目安：9月下旬〜10月中旬</span>
+        </div>
+      </div>
+
+      <!-- ニューピオーネ -->
+      <div class="v-card fi d2">
+        <img src="images/pione_farm.jpg" alt="ニューピオーネ" class="v-img" loading="lazy">
+        <div class="v-body">
+          <h3 class="v-name">ニューピオーネ</h3>
+          <p class="v-desc">均整のとれた大粒が自慢。強い甘みの中に爽やかな酸味も感じられる、すっきりした味わい。</p>
+          <span class="v-harvest">収穫目安：9月中旬〜10月上旬</span>
+        </div>
+      </div>
+
+      <!-- 瀬戸ジャイアンツ -->
+      <div class="v-card fi d1">
+        <img src="images/shine_muscat_farm2.jpg" alt="瀬戸ジャイアンツ" class="v-img" loading="lazy">
+        <div class="v-body">
+          <h3 class="v-name">瀬戸ジャイアンツ</h3>
+          <p class="v-desc">皮が薄く「パリッ」と弾けるような食感。爽やかな甘酸っぱさが口いっぱいに広がります。</p>
+          <span class="v-harvest">収穫目安：9月下旬〜10月中旬</span>
+        </div>
+      </div>
+
+      <!-- ブラックビート -->
+      <div class="v-card fi d2">
+        <img src="images/blackbeat_farm.jpg" alt="ブラックビート" class="v-img" loading="lazy">
+        <div class="v-body">
+          <h3 class="v-name">ブラックビート</h3>
+          <p class="v-desc">鮮やかな黒色で大粒。果肉は締まり、糖度が高く、あっさりした味で食べやすい品種。</p>
+          <span class="v-harvest">収穫目安：9月上旬〜9月下旬</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ========== GIFT ========== -->
+<section id="gift">
+  <div class="wrap">
+    <p class="sec-label fi">Gift</p>
+    <h2 class="sec-title fi d1">大切な人へ、<br>和気町のぶどうを。</h2>
+    <div class="rule fi d2"></div>
+
+    <div class="gift-grid">
+      <div class="fi d2">
+        <div class="gift-photo-wrap">
+          <img src="images/assort_box.jpg" alt="ぶどうギフトボックス" class="gift-photo" loading="lazy">
+        </div>
+      </div>
+      <div class="fi d3">
+        <div class="gift-text">
+          <p>福原農園のぶどうは、ご贈答用としても多くの方にお選びいただいています。<br>丁寧に梱包し、大切な方へお届けします。</p>
+        </div>
+        <ul class="gift-list">
+          <li>お中元・お歳暮</li>
+          <li>内祝い・お礼</li>
+          <li>誕生日・記念日のギフト</li>
+        </ul>
+        <a href="https://www.fukuharafarm.shop/" target="_blank" rel="noopener" class="btn-outline">
+          ギフトの詳細を見る
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ========== COMMITMENT ========== -->
+<section id="commitment">
+  <div class="wrap">
+    <p class="sec-label fi">Our Commitment</p>
+    <h2 class="sec-title fi d1">丁寧に、毎日。</h2>
+    <div class="rule fi d2"></div>
+
+    <div class="commit-grid">
+      <div class="c-card fi d1">
+        <div class="c-icon" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg></div>
+        <h3 class="c-title">毎日の観察</h3>
+        <p class="c-text">ぶどうの収穫は年に1回。<br>四季折々に見せるぶどうの姿を毎日観察し、成長の異変にいち早く気づくことが、品質への第一歩です。</p>
+      </div>
+
+      <div class="c-card fi d2">
+        <div class="c-icon" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z"/><path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"/></svg></div>
+        <h3 class="c-title">土づくりへのこだわり</h3>
+        <p class="c-text">しっかりとした根を張るために、土づくりを大切にしています。活力ある元気なぶどうの木が、美味しい実を育てます。</p>
+      </div>
+
+      <div class="c-card fi d3">
+        <div class="c-icon" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"/><path d="m3.3 7 8.7 5 8.7-5"/><path d="M12 22V12"/></svg></div>
+        <h3 class="c-title">収穫してから発送</h3>
+        <p class="c-text">いちばんおいしい時に召し上がっていただきたいから、ご注文いただいてから収穫・発送します。採れたての味をそのままお届けします。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ========== BLOG ========== -->
+<section id="blog">
+  <div class="wrap">
+    <p class="sec-label fi">Farm Diary</p>
+    <h2 class="sec-title fi d1">農園だより</h2>
+    <div class="rule fi d2"></div>
+    <p class="sec-sub fi d2">農園の日常をお届けします。</p>
+
+    <div id="blog-grid" class="blog-grid">
+      <p class="blog-state">読み込み中...</p>
+    </div>
+
+    <div class="blog-more fi d3">
+      <p class="blog-insta-sub">Instagramでも農園の日常を発信中🌿</p>
+      <div class="insta-links">
+        <a href="https://www.instagram.com/fukuhara_farm?igsh=MWptcHRmd25ncmZ5bA==" target="_blank" rel="noopener" class="insta-link">
+          <i class="fab fa-instagram"></i>
+          <span class="insta-handle">@fukuhara_farm</span>
+          <span class="insta-label">農園主</span>
+        </a>
+        <a href="https://www.instagram.com/budou_617?igsh=c2poZWFnZWkya2x1&utm_source=qr" target="_blank" rel="noopener" class="insta-link">
+          <i class="fab fa-instagram"></i>
+          <span class="insta-handle">@budou_617</span>
+          <span class="insta-label">息子</span>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ========== SHOP ========== -->
+<section id="shop">
+  <div class="wrap">
+    <p class="sec-label fi">Order</p>
+    <h2 class="sec-title fi d1">ご注文はこちらから</h2>
+    <div class="rule fi d2"></div>
+    <p class="shop-sub fi d2">品種・用途からお選びください。押すとBASEの購入ページへ移動します。</p>
+
+    <!-- シャインマスカット -->
+    <div class="shop-variety fi">
+      <div class="shop-variety-header">
+        <img src="images/shine_muscat_farm2.jpg" alt="シャインマスカット" class="shop-variety-img" loading="lazy">
+        <h3 class="shop-variety-name">シャインマスカット</h3>
+      </div>
+      <div class="shop-products">
+        <div class="shop-product">
+          <p class="shop-product-name">贈答品 2房入り 1箱</p>
+          <p class="shop-product-price">¥6,000</p>
+          <a href="https://www.fukuharafarm.shop/items/12500564" target="_blank" rel="noopener" class="shop-btn">購入する →</a>
+        </div>
+        <div class="shop-product">
+          <p class="shop-product-name">ご家庭用 約2kg 1箱</p>
+          <p class="shop-product-price">¥6,000</p>
+          <a href="https://www.fukuharafarm.shop/items/93005511" target="_blank" rel="noopener" class="shop-btn">購入する →</a>
+        </div>
+        <div class="shop-variety-more">
+          <a href="https://www.fukuharafarm.shop/" target="_blank" rel="noopener">その他の商品はショップで見る →</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- ニューピオーネ -->
+    <div class="shop-variety fi">
+      <div class="shop-variety-header">
+        <img src="images/pione.jpg" alt="ニューピオーネ" class="shop-variety-img" loading="lazy">
+        <h3 class="shop-variety-name">ニューピオーネ</h3>
+      </div>
+      <div class="shop-products">
+        <div class="shop-product">
+          <p class="shop-product-name">約1kg 1箱</p>
+          <p class="shop-product-price">¥3,000</p>
+          <a href="https://www.fukuharafarm.shop/items/12500295" target="_blank" rel="noopener" class="shop-btn">購入する →</a>
+        </div>
+        <div class="shop-product">
+          <p class="shop-product-name">約2kg 1箱</p>
+          <p class="shop-product-price">¥5,200</p>
+          <a href="https://www.fukuharafarm.shop/items/12500304" target="_blank" rel="noopener" class="shop-btn">購入する →</a>
+        </div>
+        <div class="shop-variety-more">
+          <a href="https://www.fukuharafarm.shop/" target="_blank" rel="noopener">その他の商品はショップで見る →</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- 瀬戸ジャイアンツ -->
+    <div class="shop-variety fi">
+      <div class="shop-variety-header">
+        <img src="images/seto_giants.jpg" alt="瀬戸ジャイアンツ" class="shop-variety-img" loading="lazy">
+        <h3 class="shop-variety-name">瀬戸ジャイアンツ</h3>
+      </div>
+      <div class="shop-products">
+        <div class="shop-product">
+          <p class="shop-product-name">約2kg 1箱</p>
+          <p class="shop-product-price">¥6,000</p>
+          <a href="https://www.fukuharafarm.shop/items/12500809" target="_blank" rel="noopener" class="shop-btn">購入する →</a>
+        </div>
+        <div class="shop-product">
+          <p class="shop-product-name">約2kg 2箱セット<span class="badge-deal">送料お得</span></p>
+          <p class="shop-product-price">¥11,900</p>
+          <a href="https://www.fukuharafarm.shop/items/23071588" target="_blank" rel="noopener" class="shop-btn">購入する →</a>
+        </div>
+        <div class="shop-variety-more">
+          <a href="https://www.fukuharafarm.shop/" target="_blank" rel="noopener">その他の商品はショップで見る →</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- ブラックビート -->
+    <div class="shop-variety fi">
+      <div class="shop-variety-header">
+        <img src="images/blackbeat.jpg" alt="ブラックビート" class="shop-variety-img" loading="lazy">
+        <h3 class="shop-variety-name">ブラックビート</h3>
+      </div>
+      <div class="shop-products">
+        <div class="shop-product">
+          <p class="shop-product-name">約1kg 1箱</p>
+          <p class="shop-product-price">¥3,000</p>
+          <a href="https://www.fukuharafarm.shop/items/32214130" target="_blank" rel="noopener" class="shop-btn">購入する →</a>
+        </div>
+        <div class="shop-product">
+          <p class="shop-product-name">約2kg 1箱</p>
+          <p class="shop-product-price">¥5,200</p>
+          <a href="https://www.fukuharafarm.shop/items/12500870" target="_blank" rel="noopener" class="shop-btn">購入する →</a>
+        </div>
+        <div class="shop-variety-more">
+          <a href="https://www.fukuharafarm.shop/" target="_blank" rel="noopener">その他の商品はショップで見る →</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- 詰め合わせ -->
+    <div class="shop-variety fi">
+      <div class="shop-variety-header">
+        <img src="images/assort_box.jpg" alt="詰め合わせ" class="shop-variety-img" loading="lazy">
+        <h3 class="shop-variety-name">詰め合わせ</h3>
+      </div>
+      <div class="shop-products">
+        <div class="shop-product">
+          <p class="shop-product-name">ピオーネ&amp;シャインマスカット 3〜4房 1箱</p>
+          <p class="shop-product-price">¥6,500</p>
+          <a href="https://www.fukuharafarm.shop/items/12500931" target="_blank" rel="noopener" class="shop-btn">購入する →</a>
+        </div>
+        <div class="shop-product">
+          <p class="shop-product-name">ピオーネ&amp;シャインマスカット 3〜4房 2箱セット<span class="badge-deal">送料お得</span></p>
+          <p class="shop-product-price">¥12,900</p>
+          <a href="https://www.fukuharafarm.shop/items/49750898" target="_blank" rel="noopener" class="shop-btn">購入する →</a>
+        </div>
+        <div class="shop-variety-more">
+          <a href="https://www.fukuharafarm.shop/" target="_blank" rel="noopener">その他の商品はショップで見る →</a>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+
+<!-- ========== PURCHASE CTA ========== -->
+<section id="purchase">
+  <div class="wrap">
+    <p class="sec-label fi">Online Shop</p>
+    <h2 class="sec-title fi d1">旬のぶどうを、お取り寄せ。</h2>
+    <div class="rule fi d2"></div>
+    <p class="cta-sub fi d2">ご自宅用から贈答品まで、ご用意しています。</p>
+    <div class="fi d3">
+      <a href="https://www.fukuharafarm.shop/" target="_blank" rel="noopener" class="btn-white">
+        オンラインショップへ
+      </a>
+    </div>
+  </div>
+</section>
+
+
+<!-- ========== FOOTER ========== -->
+<footer>
+  <div class="foot-inner">
+    <div class="foot-top">
+      <div>
+        <p class="foot-logo">福原農園</p>
+        <p class="foot-addr">岡山県和気郡和気町</p>
+      </div>
+      <div class="foot-links">
+        <a href="https://www.instagram.com/fukuhara_farm?igsh=MWptcHRmd25ncmZ5bA==" target="_blank" rel="noopener" aria-label="Instagram @fukuhara_farm">
+          <i class="fab fa-instagram" style="font-size:1.35rem;vertical-align:middle"></i><span class="foot-insta-handle">@fukuhara_farm</span>
+        </a>
+        <a href="https://www.instagram.com/budou_617?igsh=c2poZWFnZWkya2x1&utm_source=qr" target="_blank" rel="noopener" aria-label="Instagram @budou_617">
+          <i class="fab fa-instagram" style="font-size:1.35rem;vertical-align:middle"></i><span class="foot-insta-handle">@budou_617</span>
+        </a>
+        <a href="https://www.fukuharafarm.shop/privacy" target="_blank" rel="noopener">プライバシーポリシー</a>
+        <a href="https://www.fukuharafarm.shop/law"     target="_blank" rel="noopener">特定商取引法に基づく表記</a>
+      </div>
+    </div>
+    <p class="foot-copy">© 福原農園</p>
+  </div>
+</footer>
+
+
+<script>
+  // ===== Hamburger =====
+  const ham    = document.getElementById('ham');
+  const mobNav = document.getElementById('mobNav');
+
+  ham.addEventListener('click', () => {
+    ham.classList.toggle('open');
+    mobNav.classList.toggle('open');
+    ham.setAttribute('aria-label', ham.classList.contains('open') ? 'メニューを閉じる' : 'メニューを開く');
+  });
+
+  document.querySelectorAll('.mnl').forEach(a => {
+    a.addEventListener('click', () => {
+      ham.classList.remove('open');
+      mobNav.classList.remove('open');
+    });
+  });
+
+  // ===== Scroll Fade-In =====
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('on');
+        observer.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.1, rootMargin: '0px 0px -30px 0px' });
+
+  document.querySelectorAll('.fi').forEach(el => observer.observe(el));
+
+  // ===== Hero Slideshow =====
+  (function(){
+    const slides = document.querySelectorAll('.hero-slide');
+    const dots   = document.querySelectorAll('.hero-dot');
+    let current  = 0, timer;
+
+    function goTo(idx) {
+      slides[current].classList.remove('active');
+      dots[current].classList.remove('active');
+      current = idx;
+      slides[current].classList.add('active');
+      dots[current].classList.add('active');
+    }
+
+    function startTimer() {
+      clearInterval(timer);
+      timer = setInterval(function(){ goTo((current + 1) % slides.length); }, 4000);
+    }
+
+    dots.forEach(function(dot){
+      dot.addEventListener('click', function(){
+        goTo(+dot.dataset.idx);
+        startTimer();
+      });
+    });
+
+    startTimer();
+  })();
+
+  // ===== Blog =====
+  (function(){
+    var grid = document.getElementById('blog-grid');
+    if (!grid) return;
+
+    function fmt(s) {
+      var d = new Date(s);
+      return d.getFullYear() + '年' + (d.getMonth() + 1) + '月' + d.getDate() + '日';
+    }
+
+    function esc(s) {
+      if (!s) return '';
+      return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+    }
+
+    function showFallback() {
+      grid.innerHTML = '<p class="blog-state">現在準備中です。</p>';
+    }
+
+    var ctrl = new AbortController();
+    var tid = setTimeout(function(){ ctrl.abort(); }, 10000);
+
+    fetch('/api/posts', { signal: ctrl.signal })
+      .then(function(r) {
+        clearTimeout(tid);
+        if (!r.ok) throw new Error('HTTP ' + r.status);
+        return r.json();
+      })
+      .then(function(data) {
+        if (!data.posts || data.posts.length === 0) { showFallback(); return; }
+        grid.innerHTML = data.posts.map(function(post) {
+          var thumb = post.thumbnail
+            ? '<img class="blog-thumb" src="' + esc(post.thumbnail) + '" alt="' + esc(post.title) + '" loading="lazy">'
+            : '<div class="blog-thumb-ph">🍇</div>';
+          var date    = post.date ? '<p class="blog-date">' + fmt(post.date) + '</p>' : '';
+          var excerpt = post.excerpt ? '<p class="blog-excerpt">' + esc(post.excerpt) + (post.excerpt.length >= 100 ? '…' : '') + '</p>' : '';
+          return '<a class="blog-card fi" href="' + esc(post.url) + '" target="_blank" rel="noopener">'
+            + thumb + '<div class="blog-body">' + date + '<p class="blog-title">' + esc(post.title) + '</p>' + excerpt + '</div></a>';
+        }).join('');
+        try { grid.querySelectorAll('.fi').forEach(function(el){ observer.observe(el); }); } catch(e){}
+      })
+      .catch(function(e) {
+        clearTimeout(tid);
+        console.error('[blog] fetch failed:', e.message);
+        showFallback();
+      });
+  })();
+</script>
+
+</body>
+</html>
