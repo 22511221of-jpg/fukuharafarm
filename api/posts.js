@@ -6,6 +6,12 @@ module.exports = async function handler(req, res) {
     return res.status(500).json({ error: 'Server configuration error' });
   }
 
+  const headers = {
+    Authorization: `Bearer ${token}`,
+    'Notion-Version': '2022-06-28',
+    'Content-Type': 'application/json',
+  };
+
   // Step 1: try with 公開 filter + created_time sort
   // Step 2: if 400 (property not found), retry without filter
   async function query(withFilter) {
@@ -18,13 +24,29 @@ module.exports = async function handler(req, res) {
     }
     return fetch(`https://api.notion.com/v1/databases/${dbId}/query`, {
       method: 'POST',
-      headers: {
-        Authorization: `Bearer ${token}`,
-        'Notion-Version': '2022-06-28',
-        'Content-Type': 'application/json',
-      },
+      headers,
       body: JSON.stringify(body),
     });
+  }
+
+  // Look at the page body and return the URL of the first image block
+  async function findFirstImage(pageId) {
+    try {
+      const r = await fetch(`https://api.notion.com/v1/blocks/${pageId}/children?page_size=50`, {
+        headers,
+      });
+      if (!r.ok) return null;
+      const data = await r.json();
+      for (const block of data.results || []) {
+        if (block.type === 'image') {
+          const img = block.image;
+          return img?.file?.url || img?.external?.url || null;
+        }
+      }
+      return null;
+    } catch {
+      return null;
+    }
   }
 
   try {
@@ -42,7 +64,7 @@ module.exports = async function handler(req, res) {
 
     const data = await r.json();
 
-    const posts = data.results.map(page => {
+    const posts = await Promise.all(data.results.map(async page => {
       const p = page.properties;
 
       // title: find the property of type 'title'
@@ -57,15 +79,16 @@ module.exports = async function handler(req, res) {
       const excerptProp = p['内容'] || p['説明'] || p['概要'] || p['Description'] || p['excerpt'] || p['本文'];
       const excerpt = excerptProp?.rich_text?.map(t => t.plain_text).join('').slice(0, 100) || '';
 
-      // thumbnail: page cover image
+      // thumbnail: page cover image, falling back to the first image in the page body
       const cover = page.cover;
-      const thumbnail = cover?.external?.url || cover?.file?.url || null;
+      const coverUrl = cover?.external?.url || cover?.file?.url || null;
+      const thumbnail = coverUrl || await findFirstImage(page.id);
 
       // url to Notion page
       const url = `https://www.notion.so/${page.id.replace(/-/g, '')}`;
 
       return { id: page.id, title, date, excerpt, thumbnail, url };
-    });
+    }));
 
     res.setHeader('Cache-Control', 's-maxage=60, stale-while-revalidate=300');
     return res.status(200).json({ posts });
