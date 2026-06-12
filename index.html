@@ -69,6 +69,7 @@
 
     .desk-nav ul { display: flex; gap: 2rem; list-style: none; }
     .desk-nav a {
+      display: inline-flex; align-items: center; min-height: 44px;
       font-size: .84rem; color: var(--text);
       text-decoration: none; letter-spacing: .06em;
       transition: color .2s;
@@ -77,8 +78,9 @@
 
     /* Hamburger */
     .ham {
-      display: none; flex-direction: column; gap: 5px;
-      background: none; border: none; cursor: pointer; padding: 4px;
+      display: none; flex-direction: column; align-items: center; justify-content: center; gap: 5px;
+      width: 44px; height: 44px;
+      background: none; border: none; cursor: pointer; padding: 0;
     }
     .ham span { display: block; width: 22px; height: 2px; background: var(--text); transition: all .28s; }
     .ham.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
@@ -93,8 +95,11 @@
       padding: 1.5rem 2rem;
     }
     .mob-nav.open { display: block; }
-    .mob-nav ul { list-style: none; display: flex; flex-direction: column; gap: 1.3rem; }
-    .mob-nav a { font-size: .95rem; color: var(--text); text-decoration: none; }
+    .mob-nav ul { list-style: none; display: flex; flex-direction: column; gap: .25rem; }
+    .mob-nav a {
+      display: flex; align-items: center; min-height: 44px;
+      font-size: .95rem; color: var(--text); text-decoration: none;
+    }
 
     /* ===== HERO ===== */
     #hero {
@@ -119,14 +124,20 @@
 
     .hero-dots {
       position: absolute; bottom: 2rem; left: 50%; transform: translateX(-50%);
-      display: flex; gap: .6rem; z-index: 3;
+      display: flex; z-index: 3;
     }
     .hero-dot {
-      width: 9px; height: 9px; border-radius: 50%;
-      background: rgba(255,255,255,.35); border: none; cursor: pointer; padding: 0;
+      width: 44px; height: 44px;
+      display: flex; align-items: center; justify-content: center;
+      background: none; border: none; cursor: pointer; padding: 0;
+    }
+    .hero-dot::before {
+      content: '';
+      display: block; width: 9px; height: 9px; border-radius: 50%;
+      background: rgba(255,255,255,.35);
       transition: background .3s, transform .3s;
     }
-    .hero-dot.active { background: rgba(255,255,255,.9); transform: scale(1.25); }
+    .hero-dot.active::before { background: rgba(255,255,255,.9); transform: scale(1.25); }
 
     .hero-content {
       position: relative; z-index: 2;
@@ -165,6 +176,19 @@
       text-decoration: none; transition: background .2s, transform .2s;
     }
     .btn-grape:hover { background: #38195a; transform: translateY(-2px); }
+
+    .hero-btns {
+      display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;
+    }
+
+    .btn-outline-light {
+      display: inline-block;
+      border: 2px solid #fff; color: #fff;
+      font-size: .9rem; letter-spacing: .1em;
+      padding: .95rem 2.5rem; border-radius: 4px;
+      text-decoration: none; transition: background .2s, color .2s, transform .2s;
+    }
+    .btn-outline-light:hover { background: #fff; color: var(--grape); transform: translateY(-2px); }
 
     .scroll-hint {
       position: absolute; bottom: 5rem; left: 50%; transform: translateX(-50%);
@@ -434,10 +458,26 @@
 
     .foot-links { display: flex; gap: 1.5rem; flex-wrap: wrap; align-items: center; }
     .foot-links a {
+      display: inline-flex; align-items: center; min-height: 44px;
       color: rgba(255,255,255,.55); font-size: .8rem;
       text-decoration: none; transition: color .2s;
     }
     .foot-links a:hover { color: #fff; }
+
+    .foot-insta-btn {
+      gap: .5rem;
+      background: rgba(255,255,255,.08);
+      border: 1px solid rgba(255,255,255,.18);
+      border-radius: 999px;
+      padding: 0 1.1rem;
+      color: rgba(255,255,255,.85) !important;
+      transition: background .2s, border-color .2s, color .2s;
+    }
+    .foot-insta-btn:hover {
+      background: #c13584; border-color: #c13584; color: #fff !important;
+    }
+    .foot-insta-btn i { font-size: 1.2rem; color: #c13584; transition: color .2s; }
+    .foot-insta-btn:hover i { color: #fff; }
 
     .foot-copy { font-size: .72rem; color: rgba(255,255,255,.35); text-align: center; }
 
@@ -505,13 +545,14 @@
     }
 
     .shop-btn {
-      display: block;
+      display: flex; align-items: center; justify-content: center;
       background: var(--grape); color: #fff;
-      font-size: .8rem; letter-spacing: .08em;
-      padding: .6rem 1rem;
+      font-size: 15px; letter-spacing: .08em;
+      padding: 14px 28px;
       border-radius: 4px;
       text-decoration: none; text-align: center;
       margin-top: auto;
+      min-height: 44px;
       transition: background .2s;
     }
     .shop-btn:hover { background: #38195a; }
@@ -521,6 +562,8 @@
       margin-top: .25rem;
     }
     .shop-variety-more a {
+      display: inline-flex; align-items: center; justify-content: flex-end;
+      min-height: 44px;
       font-size: .82rem; color: var(--grape);
       text-decoration: none; letter-spacing: .04em;
       transition: opacity .2s;
@@ -592,7 +635,7 @@
     .insta-label { font-size: .7rem; color: var(--sub); letter-spacing: .06em; margin-top: .1rem; }
     .insta-handle { font-size: .85rem; font-weight: 500; color: var(--grape); }
 
-    .foot-insta-handle { font-size: .78rem; margin-left: .3em; vertical-align: middle; }
+    .foot-insta-handle { font-size: .78rem; }
 
     .blog-state {
       grid-column: 1 / -1; text-align: center;
@@ -605,14 +648,16 @@
       .desk-nav { display: none; }
       .ham { display: flex; }
       header { padding: 0 1.25rem; }
-      .logo-link img { height: 42px; }
+      .logo-link img { height: 44px; }
 
       /* ---- ヒーロー ---- */
       .hero-content { padding: 1.25rem; }
       .hero-badge { font-size: .65rem; letter-spacing: .1em; margin-bottom: 1.2rem; }
       .hero-title { font-size: 1.85rem; line-height: 1.5; margin-bottom: 1.1rem; }
       .hero-sub { font-size: .9rem; line-height: 1.85; margin-bottom: 1.8rem; }
-      .btn-grape { font-size: .85rem; padding: .85rem 2rem; }
+      .btn-grape, .btn-outline-light { font-size: .85rem; padding: .85rem 2rem; }
+      .hero-btns { flex-direction: column; align-items: center; gap: .8rem; }
+      .hero-btns .btn-grape, .hero-btns .btn-outline-light { width: 100%; max-width: 280px; text-align: center; }
 
       /* ---- セクション共通 ---- */
       section { padding: 3.5rem 1.25rem; }
@@ -686,7 +731,6 @@
       <li><a href="#commitment">こだわり</a></li>
       <li><a href="#blog">農園だより</a></li>
       <li><a href="#shop">ご注文</a></li>
-      <li><a href="#purchase">ご購入</a></li>
     </ul>
   </nav>
 
@@ -703,7 +747,6 @@
     <li><a href="#commitment" class="mnl">こだわり</a></li>
     <li><a href="#blog"       class="mnl">農園だより</a></li>
     <li><a href="#shop"       class="mnl">ご注文</a></li>
-    <li><a href="#purchase"   class="mnl">ご購入</a></li>
   </ul>
 </div>
 
@@ -728,9 +771,14 @@
       「ぶどう」がだいすきな農家が、<br>
       心をこめて育てた一粒をお届けします。
     </p>
-    <a href="https://www.fukuharafarm.shop/" target="_blank" rel="noopener" class="btn-grape">
-      ご購入はこちら
-    </a>
+    <div class="hero-btns">
+      <a href="https://www.fukuharafarm.shop/" target="_blank" rel="noopener" class="btn-grape">
+        ギフトを探す
+      </a>
+      <a href="#shop" class="btn-outline-light">
+        ご家庭用を見る
+      </a>
+    </div>
   </div>
 
   <div class="hero-dots" role="tablist" aria-label="スライド切り替え">
@@ -1119,11 +1167,11 @@
         <p class="foot-addr">岡山県和気郡和気町</p>
       </div>
       <div class="foot-links">
-        <a href="https://www.instagram.com/fukuhara_farm?igsh=MWptcHRmd25ncmZ5bA==" target="_blank" rel="noopener" aria-label="Instagram @fukuhara_farm">
-          <i class="fab fa-instagram" style="font-size:1.35rem;vertical-align:middle"></i><span class="foot-insta-handle">@fukuhara_farm</span>
+        <a href="https://www.instagram.com/fukuhara_farm?igsh=MWptcHRmd25ncmZ5bA==" target="_blank" rel="noopener" aria-label="Instagram @fukuhara_farm" class="foot-insta-btn">
+          <i class="fab fa-instagram"></i><span class="foot-insta-handle">@fukuhara_farm</span>
         </a>
-        <a href="https://www.instagram.com/budou_617?igsh=c2poZWFnZWkya2x1&utm_source=qr" target="_blank" rel="noopener" aria-label="Instagram @budou_617">
-          <i class="fab fa-instagram" style="font-size:1.35rem;vertical-align:middle"></i><span class="foot-insta-handle">@budou_617</span>
+        <a href="https://www.instagram.com/budou_617?igsh=c2poZWFnZWkya2x1&utm_source=qr" target="_blank" rel="noopener" aria-label="Instagram @budou_617" class="foot-insta-btn">
+          <i class="fab fa-instagram"></i><span class="foot-insta-handle">@budou_617</span>
         </a>
         <a href="https://www.fukuharafarm.shop/privacy" target="_blank" rel="noopener">プライバシーポリシー</a>
         <a href="https://www.fukuharafarm.shop/law"     target="_blank" rel="noopener">特定商取引法に基づく表記</a>
@@ -1209,7 +1257,7 @@
     }
 
     function showFallback() {
-      grid.innerHTML = '<p class="blog-state">現在準備中です。</p>';
+      grid.innerHTML = '<p class="blog-state">現在準備中です。Instagramで農園の日常を発信中🌿</p>';
     }
 
     var ctrl = new AbortController();
